@@ -1,5 +1,7 @@
 package com.sendemail.services;
 
+import java.util.List;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +13,19 @@ public class AiSummaryService {
 
 	private final ChatClient chatClient;
 
-	public String summarize(String news) {
+	public String summarize(List<String> news) {
 
 		String prompt = """
-				Summarize the following AI news into
-				a concise morning briefing:
+				You are an AI news analyst.
 
+				Analyze these AI news headlines.
+
+				1. Select top 5 important stories.
+				2. Explain why they matter.
+				3. Create a concise morning briefing.
+				4. Keep under 300 words.
+
+				News:
 				%s
 				""".formatted(news);
 

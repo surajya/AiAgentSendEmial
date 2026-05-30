@@ -1,9 +1,11 @@
 package com.sendemail.services;
 
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -12,14 +14,17 @@ public class EmailService {
 
 	private final JavaMailSender mailSender;
 
-	public void sendEmail(String summary) {
+	public void sendEmail(String summary) throws MessagingException {
 
-		SimpleMailMessage message = new SimpleMailMessage();
+		// SimpleMailMessage message = new SimpleMailMessage();
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-		message.setTo("surajvns1571999@gmail.com");
-		message.setSubject("Daily AI News");
-		message.setText(summary);
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-		mailSender.send(message);
+		helper.setTo("surajvns1571999@gmail.com");
+		helper.setSubject("Daily AI News");
+		helper.setText(summary);
+
+		mailSender.send(mimeMessage);
 	}
 }
